@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Santi’ Calculadora</title>
+
+  <!-- Tipografías de Google Fonts (si no hay internet, usa las de respaldo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="calculadora">
+
+    <!-- Marca de la calculadora y botón para mostrar la parte científica -->
+    <header class="encabezado">
+      <h1 class="marca">Santi’ Calculadora</h1>
+      <div class="controles">
+        <button class="boton-modo pequeno" id="botonHistorial" type="button">Historial</button>
+        <button class="boton-modo" id="botonModo" type="button">Científica</button>
+      </div>
+    </header>
+
+    <!-- Pantalla: arriba la operación pequeña, abajo el número grande -->
+    <section class="pantalla" aria-live="polite">
+      <div class="operacion" id="operacion"></div>
+      <div class="resultado" id="resultado">0</div>
+    </section>
+
+    <!-- Todos los botones están dentro de este div para escuchar los clics en un solo lugar -->
+    <div id="botones">
+
+      <!-- Botones científicos (data-fun = función que se aplica al número) -->
+      <section class="cientifica" id="panelCientifico">
+        <div class="botones-grupo">
+          <button class="tecla" type="button" data-fun="sin">sin</button>
+          <button class="tecla" type="button" data-fun="cos">cos</button>
+          <button class="tecla" type="button" data-fun="tan">tan</button>
+          <button class="tecla" type="button" data-fun="log">log</button>
+
+          <button class="tecla" type="button" data-fun="ln">ln</button>
+          <button class="tecla" type="button" data-fun="raiz">√</button>
+          <button class="tecla" type="button" data-fun="cuadrado">x²</button>
+          <button class="tecla" type="button" data-op="^">xʸ</button>
+
+          <button class="tecla" type="button" data-fun="pi">π</button>
+          <button class="tecla" type="button" data-fun="inverso">1/x</button>
+          <button class="tecla" type="button" data-fun="signo">±</button>
+          <button class="tecla" type="button" data-fun="porcentaje">%</button>
+        </div>
+      </section>
+
+      <!-- Botones normales -->
+      <section class="botones-grupo">
+        <button class="tecla borrar ancho" type="button" data-accion="borrarTodo">C</button>
+        <button class="tecla" type="button" data-accion="borrarUno">←</button>
+        <button class="tecla operador" type="button" data-op="÷">÷</button>
+
+        <button class="tecla" type="button" data-num="7">7</button>
+        <button class="tecla" type="button" data-num="8">8</button>
+        <button class="tecla" type="button" data-num="9">9</button>
+        <button class="tecla operador" type="button" data-op="×">×</button>
+
+        <button class="tecla" type="button" data-num="4">4</button>
+        <button class="tecla" type="button" data-num="5">5</button>
+        <button class="tecla" type="button" data-num="6">6</button>
+        <button class="tecla operador" type="button" data-op="−">−</button>
+
+        <button class="tecla" type="button" data-num="1">1</button>
+        <button class="tecla" type="button" data-num="2">2</button>
+        <button class="tecla" type="button" data-num="3">3</button>
+        <button class="tecla operador" type="button" data-op="+">+</button>
+
+        <button class="tecla ancho" type="button" data-num="0">0</button>
+        <button class="tecla" type="button" data-num=".">.</button>
+        <button class="tecla igual" type="button" data-accion="igual">=</button>
+      </section>
+    </div>
+
+    <!-- Historial: escondido hasta que se toca el botón "Historial" -->
+    <aside class="historial" id="historial">
+      <div class="historial-top">
+        <div>
+          <h2>Historial</h2>
+          <p>Tus operaciones recientes</p>
+        </div>
+        <button class="boton-modo pequeno" id="botonCerrar" type="button" aria-label="Cerrar historial">✕</button>
+      </div>
+      <ul id="listaHistorial"></ul>
+      <button class="boton-modo limpiar" id="botonLimpiar" type="button">Limpiar historial</button>
+    </aside>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

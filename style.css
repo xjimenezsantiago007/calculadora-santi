@@ -1,0 +1,267 @@
+/* =========================================================
+   1. COLORES Y MEDIDAS
+   Aquí guardo los colores en variables para cambiarlos
+   fácil desde un solo lugar.
+   ========================================================= */
+:root {
+  /* --- Fondo de la página (grises suaves) --- */
+  --fondo-1: #dedcd7;
+  --fondo-2: #c9c7c1;
+
+  /* --- Calculadora en negro grafito --- */
+  --cuerpo: #2b2d2f;
+  --cuerpo-oscuro: #1f2123;
+  --cuerpo-claro: #3a3d40;
+  --pantalla: #131415;
+  --texto-pantalla: #ececea;
+  --texto: #ececea;
+  --acento: #e0b252;   /* dorado suave: igual, circulito, errores y selección */
+}
+
+/* =========================================================
+   2. FONDO DE LA PÁGINA
+   Dos grises partidos en diagonal.
+   ========================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 12px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--fondo-1) 50%, var(--fondo-2) 50%);
+}
+
+/* =========================================================
+   3. CUERPO DE LA CALCULADORA
+   ========================================================= */
+.calculadora {
+  width: min(92vw, 380px);
+  padding: 22px;
+  border-radius: 28px;
+  background: var(--cuerpo);
+  box-shadow: 14px 14px 0 rgba(0, 0, 0, 0.18),
+              0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Parte de arriba: la marca y el botón de científica */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  color: var(--texto);
+}
+
+.marca {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Circulito dorado al lado de la marca, como un botón de encendido */
+.marca::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--acento);
+  box-shadow: 0 0 8px var(--acento);
+}
+
+.boton-modo {
+  border: 2px solid var(--texto);
+  background: transparent;
+  color: var(--texto);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.boton-modo:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* =========================================================
+   4. PANTALLA
+   ========================================================= */
+.pantalla {
+  background: var(--pantalla);
+  border-radius: 20px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  text-align: right;
+  color: var(--texto-pantalla);
+  font-family: "Fraunces", Georgia, serif;
+  /* Un borde interno para que se vea hundida */
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.5),
+              0 0 0 6px var(--cuerpo-oscuro);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.operacion {
+  font-size: 1rem;
+  opacity: 0.65;
+  min-height: 1.4em;
+}
+
+.resultado {
+  font-size: 2.4rem;
+  line-height: 1.1;
+  word-break: break-all;
+}
+
+/* Cuando el número es muy largo, se hace más pequeño para que quepa */
+.resultado.largo { font-size: 1.6rem; }
+.resultado.error { font-size: 1.1rem; color: var(--acento); }
+
+/* =========================================================
+   5. BOTONES (estilo "relieve", como en la imagen)
+   ========================================================= */
+.botones-grupo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+button.tecla {
+  height: 56px;
+  border: none;
+  border-radius: 28px;
+  background: var(--cuerpo);
+  color: var(--texto);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  cursor: pointer;
+  /* Sombra oscura abajo y clara arriba = efecto de relieve */
+  box-shadow: 4px 5px 9px rgba(0, 0, 0, 0.45),
+              -3px -3px 8px rgba(255, 255, 255, 0.06);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+/* Al presionar, el botón "se hunde" */
+button.tecla:active {
+  transform: scale(0.96);
+  box-shadow: inset 3px 3px 7px rgba(0, 0, 0, 0.3),
+              inset -2px -2px 6px rgba(255, 255, 255, 0.05);
+}
+
+button.tecla:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.ancho { grid-column: span 2; }
+
+/* Operadores (+ − × ÷) un poquito más claros */
+.tecla.operador { background: var(--cuerpo-claro); font-weight: 600; }
+
+/* Botón de borrar todo (C) */
+.tecla.borrar { background: var(--cuerpo-oscuro); }
+
+/* Botón de igual, en dorado para que destaque */
+.tecla.igual { background: var(--acento); font-weight: 600; }
+
+/* =========================================================
+   6. PANEL CIENTÍFICO
+   Se muestra u oculta con el botón de arriba.
+   ========================================================= */
+.cientifica {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.18);
+}
+
+.cientifica.oculta { display: none; }
+
+.cientifica .tecla {
+  height: 42px;
+  font-size: 0.95rem;
+  border-radius: 21px;
+  background: var(--cuerpo-oscuro);
+}
+
+.botones-grupo + .botones-grupo { margin-top: 12px; }
+
+/* =========================================================
+   7. PANTALLAS PEQUEÑAS (celular)
+   ========================================================= */
+@media (max-width: 380px) {
+  .calculadora { padding: 16px; }
+  button.tecla { height: 50px; }
+}
+
+/* =========================================================
+   8. BOTÓN Y PANEL DE HISTORIAL
+   El historial está escondido; solo aparece al tocar el botoncito.
+   ========================================================= */
+.calculadora { position: relative; overflow: hidden; }
+.encabezado { flex-wrap: wrap; gap: 10px; }
+.controles { display: flex; gap: 8px; align-items: center; }
+.boton-modo.pequeno { font-size: 0.75rem; padding: 6px 10px; }
+
+.historial {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  background: var(--cuerpo);
+  color: var(--texto);
+  border-radius: 28px;
+  transform: translateY(105%);
+  visibility: hidden;
+  transition: transform 0.3s, visibility 0.3s;
+}
+.historial.abierto { transform: translateY(0); visibility: visible; }
+
+.historial-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.historial h2 { font-family: "Fraunces", Georgia, serif; font-size: 1.2rem; }
+.historial p { font-size: 0.8rem; opacity: 0.7; }
+
+#listaHistorial {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+#listaHistorial li {
+  background: var(--pantalla);
+  border-radius: 16px;
+  padding: 10px 14px;
+  text-align: right;
+  font-family: "Fraunces", Georgia, serif;
+  cursor: pointer;
+}
+#listaHistorial li:hover { outline: 2px solid var(--acento); }
+#listaHistorial small { display: block; opacity: 0.65; overflow-x: auto; white-space: nowrap; }
+#listaHistorial b { font-size: 1.25rem; font-weight: 600; word-break: break-all; }
+#listaHistorial .vacio { text-align: center; opacity: 0.7; cursor: default; font-size: 0.9rem; }
+#listaHistorial .vacio:hover { outline: none; }
+.limpiar { margin-top: 14px; padding: 8px; border-radius: 14px; }
+
+/* =========================================================
+   9. RESPONSIVE (celular y tablet)
+   ========================================================= */
+@media (max-width: 480px) {
+  body { padding: 14px 8px; align-items: flex-start; }
+  .calculadora { padding: 16px; }
+  .historial { padding: 16px; }
+  .botones-grupo { gap: 9px; }
+  button.tecla { height: 50px; font-size: 1.1rem; }
+  .cientifica .tecla { height: 38px; font-size: 0.85rem; }
+  .resultado { font-size: 2rem; }
+}
